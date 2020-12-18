@@ -3,6 +3,22 @@ plugins {
     id 'kotlin-android'
 }
 
+ext {
+    libVersion = "0.0.1"
+    groupId = "com.lwjlol"
+    artifactId = "utils-ktx"
+    pkg_name = "Android-utils-ktx"
+    libraryDescription = 'Android-utils-ktx'
+    siteUrl = 'https://github.com/lwj1994/Andrioid-utils-ktx.git'
+    gitUrl = 'https://github.com/lwj1994/Andrioid-utils-ktx.git'
+    developerId = 'wenchieh'
+    developerName = 'wenchieh'
+    developerEmail = 'alwjlola@gmail.com'
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 30
 
@@ -42,3 +58,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+
+apply from: "../deploy.gradle"

@@ -9,7 +9,7 @@ val File.size: Long
     get() = computeSize(this)
 
 
-internal fun computeSize(dir: File): Long {//计算文件夹大小方法
+private fun computeSize(dir: File): Long {//计算文件夹大小方法
     var length = 0L
     dir.listFiles()?.forEach { file ->
         length += if (file.isFile) {
