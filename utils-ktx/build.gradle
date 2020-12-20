@@ -4,7 +4,7 @@ plugins {
 }
 
 ext {
-    libVersion = "0.0.3"
+    libVersion = "0.0.6"
     groupId = "com.lwjlol"
     artifactId = "utils-ktx"
     pkg_name = "Android-utils-ktx"

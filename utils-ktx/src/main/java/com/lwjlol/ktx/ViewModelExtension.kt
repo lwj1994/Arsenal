@@ -9,16 +9,16 @@ import java.io.Serializable
 
 
 inline fun <reified VM : ViewModel> FragmentActivity.viewModel(
-    viewModelStore: ViewModelStore = this.viewModelStore,
+    crossinline viewModelStore: ()->ViewModelStore = {this.viewModelStore},
     crossinline factory: () -> ViewModelProvider.Factory? = { null },
     crossinline key: () -> String? = { null }
 ): Lazy<VM> = ViewModelLifecycleAwareLazy(this) {
     val factoryValue = factory() ?: ViewModelProvider.NewInstanceFactory()
     val keyValue = key()
     if (keyValue == null) {
-        ViewModelProvider(viewModelStore, factoryValue).get(VM::class.java)
+        ViewModelProvider(viewModelStore(), factoryValue).get(VM::class.java)
     } else {
-        ViewModelProvider(viewModelStore, factoryValue).get(keyValue, VM::class.java)
+        ViewModelProvider(viewModelStore(), factoryValue).get(keyValue, VM::class.java)
     }
 }
 
@@ -49,7 +49,7 @@ inline fun <reified VM : ViewModel> Fragment.activityViewModel(
  * @param keyFactory
  * @return [ViewModelLifecycleAwareLazy]
  */
-inline fun <reified VM : ViewModel> Fragment.parentViewModel(
+inline fun <reified VM : ViewModel> Fragment.parentFragmentViewModel(
     crossinline factory: () -> ViewModelProvider.Factory? = { null },
     crossinline keyFactory: () -> String? = { null }
 ): Lazy<VM> = ViewModelLifecycleAwareLazy(this) {
@@ -66,16 +66,16 @@ inline fun <reified VM : ViewModel> Fragment.parentViewModel(
 }
 
 inline fun <reified VM : ViewModel> Fragment.viewModel(
-    viewModelStore: ViewModelStore = this.viewModelStore,
+    crossinline viewModelStore: ()->ViewModelStore = {this.viewModelStore},
     crossinline factory: () -> ViewModelProvider.Factory? = { null },
     crossinline key: () -> String? = { null }
 ): Lazy<VM> = ViewModelLifecycleAwareLazy(this) {
     val factoryValue = factory() ?: ViewModelProvider.NewInstanceFactory()
     val keyValue = key()
     if (keyValue == null) {
-        ViewModelProvider(viewModelStore, factoryValue).get(VM::class.java)
+        ViewModelProvider(viewModelStore(), factoryValue).get(VM::class.java)
     } else {
-        ViewModelProvider(viewModelStore, factoryValue).get(keyValue, VM::class.java)
+        ViewModelProvider(viewModelStore(), factoryValue).get(keyValue, VM::class.java)
     }
 }
 

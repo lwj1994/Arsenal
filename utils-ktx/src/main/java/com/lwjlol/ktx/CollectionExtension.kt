@@ -19,10 +19,33 @@ inline fun <T> Iterable<T>.findFirstIndex(predicate: (T) -> Boolean): Int {
     return -1
 }
 
+inline fun <T> Array<T>.findFirstIndex(predicate: (T) -> Boolean): Int {
+    forEachIndexed { index, t ->
+        if (predicate(t)) {
+            return index
+        }
+    }
+    return -1
+}
+
+
 /**
  * 找到迭代器中的最后一个符合条件元素的下标
  */
 inline fun <T> Iterable<T>.findLastIndex(predicate: (T) -> Boolean): Int {
+    var result = -1
+    forEachIndexed { index, t ->
+        if (predicate(t)) {
+            result = index
+        }
+    }
+    return result
+}
+
+/**
+ * 找到迭代器中的最后一个符合条件元素的下标
+ */
+inline fun <T> Array<T>.findLastIndex(predicate: (T) -> Boolean): Int {
     var result = -1
     forEachIndexed { index, t ->
         if (predicate(t)) {
