@@ -3,7 +3,7 @@ package com.lwjlol.ktx
 import android.content.Context
 
 
-lateinit var ktxContext: Context
+internal lateinit var ktxContext: Context
 
 
 object Initializer {

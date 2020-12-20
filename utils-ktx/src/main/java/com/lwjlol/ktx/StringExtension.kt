@@ -14,3 +14,8 @@ fun String.isContainChinese(): Boolean {
 
 val Int.string: String
     get() = ktxContext.getString(this)
+
+
+val String.emoji: String
+    get() = String(Character.toChars(Integer.parseInt(this, 16)))
+

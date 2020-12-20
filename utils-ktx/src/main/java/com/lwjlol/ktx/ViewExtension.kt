@@ -166,7 +166,7 @@ fun View.setSelectableBackground() {
     background = typedArray.getDrawable(0)
 }
 
-fun View.matchMatch(): View {
+fun View.match_match(): View {
     layoutParams =
         ViewGroup.LayoutParams(
           ViewGroup.LayoutParams.MATCH_PARENT,
@@ -180,7 +180,7 @@ fun createLinearLayout(
   isHorizontal: Boolean = false
 ) =
     LinearLayout(context).apply {
-        matchMatch()
+        match_match()
         orientation = if (!isHorizontal) {
             LinearLayout.VERTICAL
         } else {

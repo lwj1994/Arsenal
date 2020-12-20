@@ -1,5 +1,7 @@
 package com.lwjlol.ktx
 
+import org.json.JSONArray
+
 
 /*集合相关*/
 
@@ -135,4 +137,36 @@ fun <T : Any> List<T>.getSafely(index: Int): T? {
  */
 fun <T : Any> Collection<T>.isValid(index: Int): Boolean {
     return index >= 0 && index <= size - 1
+}
+
+
+/**
+ * 以 [delimiter] 为分割点将 String 集合 转成 String 文本，如 输入数组 [12313,123123,32131,3123]，
+ * 输出 String ："12313,123123,32131,3123"
+ * @param delimiter 分隔符
+ */
+fun Collection<String>.toSplitString(delimiter: String = ","): String {
+    val sp = StringBuilder()
+    forEachIndexed { i, s ->
+        if (i != size - 1) {
+            sp.append(s).append(delimiter)
+        } else {
+            sp.append(s)
+        }
+    }
+    return sp.toString()
+}
+
+/**
+ * 将一个 String 集合转成 JsonArray
+ */
+fun Collection<String>.toArrayJson(): String {
+    if (isEmpty()) {
+        return ""
+    }
+    val jsonArray = JSONArray()
+    forEach {
+        jsonArray.put(it)
+    }
+    return jsonArray.toString()
 }
