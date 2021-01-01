@@ -1,7 +1,7 @@
 package com.lwjlol.ktx
 
 import android.view.View
-import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.MenuRes
 import androidx.annotation.Px
@@ -19,8 +19,8 @@ fun Toolbar.init(
     @DrawableRes
     navIcon: Int = 0,
     @Px
-    height: Int,
-    onClickNav: View.OnClickListener
+    height: Int = 0,
+    onClickNav: View.OnClickListener? = null
 ) {
     if (menuId != 0) {
         inflateMenu(menuId)
@@ -28,7 +28,11 @@ fun Toolbar.init(
     if (title.isNotEmpty()) {
         this.title = title
     }
-    layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, height)
-    setNavigationIcon(navIcon)
-    setNavigationOnClickListener(onClickNav)
+    if (height != 0) {
+        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
+    }
+    if (navIcon != 0) {
+        setNavigationIcon(navIcon)
+    }
+    onClickNav?.let { setNavigationOnClickListener(it) }
 }

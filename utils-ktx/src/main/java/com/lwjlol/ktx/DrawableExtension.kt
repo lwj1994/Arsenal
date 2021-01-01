@@ -16,6 +16,7 @@ val Int.drawable: Drawable
 
 
 
+@Suppress("DEPRECATION")
 fun Drawable.setColorFilterCompact(@ColorInt color: Int = Color.LTGRAY) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         colorFilter = BlendModeColorFilter(color, BlendMode.SRC_IN)
