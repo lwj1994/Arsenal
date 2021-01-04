@@ -1,5 +1,6 @@
 package com.lwjlol.ktx
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,10 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
 
         val lifecycle = fragment.viewLifecycleOwner.lifecycle
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED)) {
-            error("Cannot access view bindings. View lifecycle is ${lifecycle.currentState}!")
+            Log.w(
+                "ViewBindingDelegate",
+                "Cannot access view bindings. View lifecycle is ${lifecycle.currentState}!"
+            )
         }
 
         fragment.viewLifecycleOwnerLiveData.observe(fragment, Observer { viewLifecycleOwner ->
@@ -59,7 +63,17 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
         binding = try {
             bindMethod.invoke(null, thisRef.requireView()) as T
         } catch (e: InvocationTargetException) {
-            bindMethod.invoke(null, (thisRef.requireView() as ViewGroup).getChildAt(0)) as T
+            // 防止被嵌套 获取第2层的 view
+            try {
+                bindMethod.invoke(null, (thisRef.requireView() as ViewGroup).getChildAt(0)) as T
+            } catch (e: InvocationTargetException) {
+                // 防止被嵌套 获取第3层的 view
+                val child =
+                    ((thisRef.requireView() as ViewGroup).getChildAt(0) as ViewGroup).getChildAt(
+                        0
+                    )
+                bindMethod.invoke(null, child) as T
+            }
         }
         return binding!!
     }
@@ -85,7 +99,6 @@ class ViewBindingDelegate<T : ViewBinding>(
         property: KProperty<*>
     ): T {
         binding?.let { return it }
-
         val inflateMethod =
             bindingClass.getMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java)
         @Suppress("UNCHECKED_CAST")
