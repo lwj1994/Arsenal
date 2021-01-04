@@ -1,6 +1,11 @@
 # Andrioid-utils-ktx
 
 ## 混淆
+已在  `consumer-rules.pro` 自动添加
 ```
--keep class {你的包名}.databinding.**{*;}
+-keep  class * implements androidx.viewbinding.ViewBinding {
+  public static *** bind(...);
+  public static *** inflate(...);
+}
+
 ```
