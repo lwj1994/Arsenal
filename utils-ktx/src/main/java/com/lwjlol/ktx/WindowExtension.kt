@@ -124,3 +124,11 @@ var Window.enableRecording: Boolean
             clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
         }
     }
+
+// 获取异形屏的安全高度
+val Window.safeTopHeight: Int
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        decorView.rootWindowInsets?.displayCutout?.safeInsetTop ?: 0
+    } else {
+        0
+    }
