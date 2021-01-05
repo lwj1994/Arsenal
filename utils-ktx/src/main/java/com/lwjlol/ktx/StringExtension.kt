@@ -1,5 +1,6 @@
 package com.lwjlol.ktx
 
+import android.content.Context
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -12,6 +13,10 @@ fun String.isContainChinese(): Boolean {
     return m.find()
 }
 
+/**
+ * 使用 [resToColorInt]  直接使用 Application Context [ktxContext] 会导致引用不到 value-night 下的颜色
+ */
+@Deprecated("use toString()", replaceWith = ReplaceWith(""))
 val Int.string: String
     get() = ktxContext.getString(this)
 
