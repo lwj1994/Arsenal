@@ -6,12 +6,12 @@ import android.content.Context
 internal lateinit var ktxContext: Context
 
 
-object Initializer {
+object UtilsInitializer {
 
     /**
      * 在 [android.app.Application] 初始化时，将 context 传入
      */
-    fun initUtilsKtx(context: Context) {
+    fun init(context: Context) {
         ktxContext = context.applicationContext
     }
 
