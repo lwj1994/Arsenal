@@ -4,7 +4,6 @@ package com.lwjlol.ktx
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.os.Build.VERSION_CODES
@@ -124,7 +123,7 @@ var Window.enableRecording: Boolean
         }
     }
 
-// 获取异形屏的安全高度
+// 获取异形屏的安全高度 需要在 view.post{  }  中运行
 val Window.safeTopHeight: Int
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         decorView.rootWindowInsets?.displayCutout?.safeInsetTop ?: 0
