@@ -10,8 +10,6 @@ import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.view.*
 
-private val sdkM = Build.VERSION.SDK_INT >= 23
-private val sdkR = Build.VERSION.SDK_INT >= 30
 
 /**
  * 状态栏沉浸模式的开关
@@ -133,23 +131,3 @@ val Window.safeTopHeight: Int
     } else {
         0
     }
-
-
-private const val NAVIGATION = "navigationBarBackground"
-
-// 全面屏的横条是否存在
-fun Activity.isNavigationBarExist(): Boolean {
-    val vp = window.decorView as ViewGroup
-    for (i in 0 until vp.childCount) {
-        vp.getChildAt(i).context.packageName
-        if (vp.getChildAt(i).id != -1 && NAVIGATION == resources.getResourceEntryName(
-                vp.getChildAt(
-                    i
-                ).id
-            )
-        ) {
-            return true
-        }
-    }
-    return false
-}

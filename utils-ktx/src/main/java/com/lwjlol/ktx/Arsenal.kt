@@ -1,8 +1,11 @@
 package com.lwjlol.ktx
 
 import android.content.Context
+import android.os.Build
 
 
+internal val sdkM = Build.VERSION.SDK_INT >= 23
+internal val sdkR = Build.VERSION.SDK_INT >= 30
 internal lateinit var ktxContext: Context
 
 

@@ -1,15 +1,35 @@
 package com.lwjlol.ktx
 
 import android.view.View
-import androidx.annotation.RestrictTo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
-import java.io.Serializable
 
 
+/**
+ *
+ * 为 Activity/Fragment 创建一个 ViewModel
+ * 使用方法：
+ * class XXActivity{
+ *  val viewModel:XXViewModel by duViewModel()
+ *
+ * }
+ *
+ * class  XXFragment{
+ *  val viewModel:XXViewModel by duViewModel()
+ * }
+ *
+ */
+inline fun <T, reified VM : ViewModel> T.viewModel(
+    crossinline factory: () -> ViewModelProvider.Factory? = { null },
+    crossinline key: () -> String? = { null }
+): Lazy<VM> where T : ViewModelStoreOwner, T : LifecycleOwner = ViewModelLifecycleAwareLazy(this) {
+    createViewModel<VM>(this, factory, key)
+}
+
+@Deprecated("use T.viewModel() where T : ViewModelStoreOwner, T : LifecycleOwner")
 inline fun <reified VM : ViewModel> FragmentActivity.viewModel(
-    crossinline viewModelStore: ()->ViewModelStore = {this.viewModelStore},
+    crossinline viewModelStore: () -> ViewModelStore = { this.viewModelStore },
     crossinline factory: () -> ViewModelProvider.Factory? = { null },
     crossinline key: () -> String? = { null }
 ): Lazy<VM> = ViewModelLifecycleAwareLazy(this) {
@@ -27,16 +47,7 @@ inline fun <reified VM : ViewModel> Fragment.activityViewModel(
     crossinline factory: () -> ViewModelProvider.Factory? = { null },
     crossinline key: () -> String? = { null }
 ): Lazy<VM> = ViewModelLifecycleAwareLazy(this) {
-    val factoryValue = factory() ?: ViewModelProvider.NewInstanceFactory()
-    val keyValue = key()
-    if (keyValue == null) {
-        ViewModelProvider(requireActivity().viewModelStore, factoryValue).get(VM::class.java)
-    } else {
-        ViewModelProvider(requireActivity().viewModelStore, factoryValue).get(
-            keyValue,
-            VM::class.java
-        )
-    }
+    createViewModel(requireActivity(), factory, key)
 }
 
 /**
@@ -65,8 +76,9 @@ inline fun <reified VM : ViewModel> Fragment.parentFragmentViewModel(
     }
 }
 
+@Deprecated("use T.viewModel() where T : ViewModelStoreOwner, T : LifecycleOwner")
 inline fun <reified VM : ViewModel> Fragment.viewModel(
-    crossinline viewModelStore: ()->ViewModelStore = {this.viewModelStore},
+    crossinline viewModelStore: () -> ViewModelStore = { this.viewModelStore },
     crossinline factory: () -> ViewModelProvider.Factory? = { null },
     crossinline key: () -> String? = { null }
 ): Lazy<VM> = ViewModelLifecycleAwareLazy(this) {
@@ -79,6 +91,7 @@ inline fun <reified VM : ViewModel> Fragment.viewModel(
     }
 }
 
+@Deprecated("")
 inline fun <reified VM : ViewModel> View.viewModel(
     crossinline factory: () -> ViewModelProvider.Factory? = { null },
     crossinline key: () -> String? = { null }
@@ -95,6 +108,7 @@ inline fun <reified VM : ViewModel> View.viewModel(
     }
 }
 
+@Deprecated("")
 inline fun <reified VM : ViewModel> View.getViewModel(
     factory: ViewModelProvider.Factory? = null, key: String? = null
 ): VM {
@@ -105,5 +119,20 @@ inline fun <reified VM : ViewModel> View.getViewModel(
         ViewModelProvider(context.viewModelStore, f).get(VM::class.java)
     } else {
         ViewModelProvider(context.viewModelStore, f).get(key, VM::class.java)
+    }
+}
+
+
+inline fun <reified VM : ViewModel> createViewModel(
+    owner: ViewModelStoreOwner,
+    crossinline factory: () -> ViewModelProvider.Factory? = { null },
+    crossinline key: () -> String? = { null }
+): VM {
+    val factoryValue = factory() ?: ViewModelProvider.NewInstanceFactory()
+    val keyValue = key()
+    return if (keyValue == null) {
+        ViewModelProvider(owner.viewModelStore, factoryValue).get(VM::class.java)
+    } else {
+        ViewModelProvider(owner.viewModelStore, factoryValue).get(keyValue, VM::class.java)
     }
 }
