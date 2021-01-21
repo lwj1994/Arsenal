@@ -13,9 +13,9 @@ private fun computeSize(dir: File): Long {//计算文件夹大小方法
     var length = 0L
     dir.listFiles()?.forEach { file ->
         length += if (file.isFile) {
-            file.length();
+            file.length()
         } else {
-            computeSize(file);//如果是文件夹,则递归调用Length方法
+            computeSize(file)//如果是文件夹,则递归调用Length方法
         }
     }
     return length
