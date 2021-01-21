@@ -6,7 +6,7 @@ import android.content.Context
 internal lateinit var ktxContext: Context
 
 
-object UtilsInitializer {
+object Arsenal {
 
     /**
      * 在 [android.app.Application] 初始化时，将 context 传入
