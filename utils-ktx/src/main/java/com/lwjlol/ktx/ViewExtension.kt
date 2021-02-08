@@ -11,6 +11,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.annotation.ColorInt
@@ -168,7 +169,7 @@ fun View.setSelectableBackground() {
 
 fun View.match_match(): View {
     layoutParams =
-        ViewGroup.LayoutParams(
+        FrameLayout.LayoutParams(
           ViewGroup.LayoutParams.MATCH_PARENT,
           ViewGroup.LayoutParams.MATCH_PARENT
         )
