@@ -43,6 +43,9 @@ private const val NAVIGATION = "navigationBarBackground"
 // 全面屏的横条是否存在
 val Activity.isNavigationBarExist: Boolean
     get() {
+        if (!isAllScreenDevice) {
+            return false
+        }
         val vp = window.decorView as ViewGroup
         for (i in 0 until vp.childCount) {
             vp.getChildAt(i).context.packageName
@@ -72,7 +75,7 @@ val Window.statusBarHeight: Int
 // 获取准确的导航栏高度，兼容了全面屏
 val Activity.navigationBarHeight: Int
     get() {
-        if (!isNavigationBarExist) {
+        if (isAllScreenDevice && !isNavigationBarExist) {
             return 0
         }
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
@@ -80,3 +83,8 @@ val Activity.navigationBarHeight: Int
             resources.getDimensionPixelSize(resourceId)
         } else 0
     }
+
+
+// 是否是全面屏
+val isAllScreenDevice: Boolean
+    get() = ktxContext.screenHeight / ktxContext.screenWidth > 1.97F && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
