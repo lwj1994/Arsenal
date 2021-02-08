@@ -73,18 +73,24 @@ val Window.statusBarHeight: Int
     }
 
 // 获取准确的导航栏高度，兼容了全面屏
+// 必须在 view post 之后调用
 val Activity.navigationBarHeight: Int
     get() {
         if (isAllScreenDevice && !isNavigationBarExist) {
             return 0
         }
+        return originNavigationBarHeight
+    }
+
+
+val Context.originNavigationBarHeight: Int
+    get() {
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
         return if (resourceId > 0) {
             resources.getDimensionPixelSize(resourceId)
         } else 0
     }
 
-
 // 是否是全面屏
-val isAllScreenDevice: Boolean
-    get() = ktxContext.screenHeight / ktxContext.screenWidth > 1.97F && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+val Context.isAllScreenDevice: Boolean
+    get() = screenHeight / screenWidth > 1.97F && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
