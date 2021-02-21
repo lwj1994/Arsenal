@@ -1,7 +1,20 @@
 # Arsenal
-[ ![Download](https://api.bintray.com/packages/wenchieh/maven/Android-utils-ktx/images/download.svg) ](https://bintray.com/wenchieh/maven/Android-utils-ktx/_latestVersion)
+
+[![](https://jitpack.io/v/lwj1994/Arsenal.svg)](https://jitpack.io/#lwj1994/Arsenal)
+
 ```
-implementation 'com.lwjlol:utils-ktx:0.1.3'
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+
+
+	dependencies {
+	        implementation 'com.github.lwj1994:Arsenal:Tag'
+	}
 ```
 ## 使用
 ```
