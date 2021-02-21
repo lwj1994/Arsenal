@@ -26,6 +26,14 @@ fun TextView.setRightDrawable(@DrawableRes res: Int) {
     setCompoundDrawablesWithIntrinsicBounds(0, 0, res, 0)
 }
 
+fun TextView.setTopDrawable(@DrawableRes res: Int) {
+    setCompoundDrawablesWithIntrinsicBounds(0, res, 0, 0)
+}
+
+fun TextView.setBottomDrawable(@DrawableRes res: Int) {
+    setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, res)
+}
+
 fun String.toSpannable(vararg span: Any) = SpannableStringBuilder(this).apply {
     span.forEach {
         setSpan(it, 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
