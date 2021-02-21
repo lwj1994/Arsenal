@@ -27,10 +27,14 @@ import kotlin.reflect.KProperty
 inline fun <reified T : ViewBinding> Fragment.viewBinding() =
     FragmentViewBindingDelegate(T::class.java, this)
 
+/**
+ * @param fragment
+ * @param targetView
+ */
 class FragmentViewBindingDelegate<T : ViewBinding>(
     bindingClass: Class<T>,
-    val fragment: Fragment,
-    val view: View? = null
+    private val fragment: Fragment,
+    private val targetView: View? = null
 ) : ReadOnlyProperty<Fragment, T> {
     private var binding: T? = null
 
@@ -60,7 +64,10 @@ class FragmentViewBindingDelegate<T : ViewBinding>(
         })
 
         @Suppress("UNCHECKED_CAST")
-        binding = try {
+
+        binding = if (targetView != null) {
+            bindMethod.invoke(null, targetView) as T
+        } else try {
             bindMethod.invoke(null, thisRef.requireView()) as T
         } catch (e: InvocationTargetException) {
             // 防止被嵌套 获取第2层的 view
